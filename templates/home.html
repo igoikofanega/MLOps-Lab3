@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Processing API - MLOps Lab1</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .endpoint {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        .endpoint h3 {
+            color: #667eea;
+            margin-top: 0;
+        }
+        .endpoint p {
+            color: #555;
+            margin: 5px 0;
+        }
+        .method {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+        .docs-link {
+            display: block;
+            text-align: center;
+            margin-top: 30px;
+            padding: 15px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        .docs-link:hover {
+            background: #764ba2;
+        }
+        .footer {
+            text-align: center;
+            color: #999;
+            margin-top: 30px;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🖼️ Image Processing API</h1>
+        <p class="subtitle">MLOps Lab1 - Procesamiento de Imágenes</p>
+        
+        <p>Bienvenido a la API de procesamiento de imágenes. Esta API proporciona endpoints para realizar operaciones básicas con imágenes.</p>
+        
+        <div class="endpoint">
+            <h3><span class="method">POST</span> /predict</h3>
+            <p><strong>Descripción:</strong> Predice la clase de una imagen (clasificación aleatoria en Lab1)</p>
+            <p><strong>Parámetros:</strong> file (imagen)</p>
+        </div>
+        
+        <div class="endpoint">
+            <h3><span class="method">POST</span> /resize</h3>
+            <p><strong>Descripción:</strong> Redimensiona una imagen a las dimensiones especificadas</p>
+            <p><strong>Parámetros:</strong> file (imagen), width (int), height (int)</p>
+        </div>
+        
+        <div class="endpoint">
+            <h3><span class="method">POST</span> /grayscale</h3>
+            <p><strong>Descripción:</strong> Convierte una imagen a escala de grises</p>
+            <p><strong>Parámetros:</strong> file (imagen)</p>
+        </div>
+        
+        <div class="endpoint">
+            <h3><span class="method">POST</span> /info</h3>
+            <p><strong>Descripción:</strong> Obtiene información sobre una imagen (tamaño, formato, etc.)</p>
+            <p><strong>Parámetros:</strong> file (imagen)</p>
+        </div>
+        
+        <a href="/docs" class="docs-link">📚 Ver Documentación Interactiva (Swagger UI)</a>
+        
+        <p class="footer">MLOps Lab1 - Universidad de Navarra</p>
+    </div>
+</body>
+</html>
