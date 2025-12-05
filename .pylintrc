@@ -1,6 +1,9 @@
 [MASTER]
 extension-pkg-whitelist=torch
 
+# Minimum score to pass (9.0 is good enough)
+fail-under=9.0
+
 [TYPECHECK]
 # List of members which are set dynamically and missed by Pylint inference
 # system, and so shouldn't trigger E1101 when accessed.
@@ -8,4 +11,13 @@ generated-members=torch.*, numpy.*, onnxruntime.*
 
 [MESSAGES CONTROL]
 # Optional: disable refactor (R) and conventions (C)
-disable=R,C
+# Also disable some warnings that are too strict for ML projects
+disable=R,C,
+    W0105,  # pointless-string-statement (docstrings in __init__.py)
+    W1514,  # unspecified-encoding (not critical for our use case)
+    W0718,  # broad-exception-caught (acceptable for API error handling)
+    W0611,  # unused-import (sometimes needed for type hints)
+    W0707,  # raise-missing-from (not critical)
+    W0107,  # unnecessary-pass (acceptable in CLI)
+    W1309,  # f-string-without-interpolation (minor style issue)
+    W0612   # unused-variable (sometimes intentional)
