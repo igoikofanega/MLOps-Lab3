@@ -1,5 +1,5 @@
-# Base image with Python 3.13
-FROM python:3.13-slim AS base
+# Base image with Python 3.11
+FROM python:3.11-slim AS base
 
 # Recommended environment variables
 ENV PYTHONDONTWRITEBYTECODE=1
@@ -8,7 +8,7 @@ ENV UV_SYSTEM_PYTHON=1
 
 WORKDIR /app
 
-# Intall the requiered dependencies of the system 
+# Install the required dependencies of the system 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     libjpeg-dev \
@@ -34,6 +34,9 @@ COPY --from=builder /usr/local /usr/local
 COPY api ./api
 COPY mylib ./mylib
 COPY templates ./templates
+# Copy model artifacts (ONNX model and class labels)
+COPY results/model.onnx ./results/model.onnx
+COPY results/class_labels.json ./results/class_labels.json
 # Expose the port associated with the API created with FastAPI
 EXPOSE 8000
 # Default command: it starts the API with uvicorn

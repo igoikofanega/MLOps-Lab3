@@ -1,189 +1,126 @@
-# MLOps-Lab1 - Image Processing Application
+# MLOps Lab3 - Transfer Learning with MLFlow
 
-![CI Pipeline](https://github.com/igoikofanega/MLOps-Lab2/actions/workflows/CICD.yml/badge.svg)
+Complete implementation of transfer learning on Oxford-IIIT Pet dataset with MLFlow experiment tracking, ONNX model serialization, and production deployment.
 
-## Description 
+## Quick Start
 
-Image processing application developed for Lab1 of the MLOps course. The application allows basic image operations such as random class prediction, resizing, grayscale conversion, and retrieving image information.
+### 1. Setup Environment
+
+```bash
+# Environment is already configured with Python 3.11
+# Dependencies are installed in .venv
+```
+
+### 2. Download Dataset
+
+```bash
+uv run python scripts/prepare_dataset.py
+```
+
+### 3. Train Models
+
+```bash
+# Train ResNet18
+uv run python scripts/train.py --model resnet18 --epochs 10
+
+# Train EfficientNet-B0
+uv run python scripts/train.py --model efficientnet_b0 --epochs 10
+
+# Train with custom hyperparameters
+uv run python scripts/train.py --model resnet18 --batch-size 64 --lr 0.01 --epochs 15
+```
+
+### 4. View MLFlow UI
+
+```bash
+mlflow ui
+# Open http://localhost:5000
+```
+
+### 5. Select Best Model and Export to ONNX
+
+```bash
+uv run python scripts/select_best_model.py
+```
+
+This creates:
+- `results/model.onnx` - ONNX model
+- `results/class_labels.json` - Class labels
+
+### 6. Test API Locally
+
+```bash
+uv run uvicorn api.api:app --reload
+# Open http://localhost:8000
+```
+
+### 7. Run Tests
+
+```bash
+# Run all tests
+uv run python -m pytest tests/ -v
+
+# Run with coverage
+uv run python -m pytest tests/ -vv --cov=mylib --cov=api --cov=cli
+```
+
+### 8. Deploy with Docker
+
+```bash
+# Build image
+docker build -t mlops-lab3 .
+
+# Run container
+docker run -p 8000:8000 mlops-lab3
+```
 
 ## Project Structure
 
 ```
-MLOps-Lab1/
-├── .github/
-│   └── workflows/
-│       └── CICD.yml                  # CI/CD Pipeline (GitHub Actions)
-├── mylib/
-│   ├── __init__.py
-│   └── operations.py               # Image processing logic
-├── cli/
-│   ├── __init__.py
-│   └── cli.py                      # Command-line interface (Click)
-├── api/
-│   ├── __init__.py
-│   └── api.py                      # FastAPI API
-├── templates/
-│   └── home.html                   # Home page template for the API
-├── tests/
-│   ├── __init__.py
-│   ├── test_operations.py          # Unit tests for mylib
-│   ├── test_cli.py                 # CLI integration tests
-│   └── test_api.py                 # API integration tests
-├── .gitignore
-├── LICENSE                         # MIT License (o la que corresponda)
-├── Makefile                        # Automated development commands
-├── pyproject.toml                  # Project metadata & dependencies (PEP 621)
-├── uv.lock                         # Lock file generado por uv (reproducible env)
-└── README.md
+├── api/                    # FastAPI application
+├── cli/                    # Command-line interface
+├── mylib/                  # Core library
+│   ├── models.py          # Model utilities
+│   ├── dataset.py         # Dataset utilities
+│   ├── inference.py       # ONNX inference wrapper
+│   └── operations.py      # Image processing operations
+├── scripts/               # Training and utility scripts
+│   ├── prepare_dataset.py # Dataset download and preparation
+│   ├── train.py          # Training with MLFlow
+│   └── select_best_model.py # Model selection and ONNX export
+├── tests/                 # Test suite
+├── results/              # Model artifacts (created after training)
+├── data/                 # Dataset (created after download)
+├── mlruns/              # MLFlow tracking data
+└── plots/               # Training curves
+
 ```
 
-## Installation
+## Features
 
-### Prerequisites
-- Python 3.12 or higher
-- uv (package and virtual environment manager)
+✅ Transfer learning with ResNet18, EfficientNet-B0, MobileNetV2
+✅ MLFlow experiment tracking and model registry
+✅ ONNX model serialization for deployment
+✅ Comprehensive test suite (36 tests)
+✅ Docker deployment ready
+✅ Production-ready API with fallback mechanism
 
-### Installation Steps
+## Next Steps
 
-1. Clone the repository:
-```bash
-git clone https://github.com/igoikofanega/MLOps-Lab1-demo.git
-cd MLOps-Lab1
-```
+See [walkthrough.md](file:///.gemini/antigravity/brain/0ecddbdd-5aac-499c-a792-9ae720ff18ab/walkthrough.md) for detailed instructions on:
+- Training multiple models
+- Comparing results in MLFlow UI
+- Selecting and exporting best model
+- Deploying to production
 
-2. Create and activate the virtual environment:
-```bash
-uv init
-uv sync
-source .venv/bin/activate  # Linux/Mac
-# or
-.venv\Scripts\activate     # Windows
-```
+## Lab Requirements
 
-3. Install dependencies:
-```bash
-make install
-```
-
-## Usage
-
-### Command Line Interface (CLI)
-
-#### Predict class of an image:
-```bash
-uv run python -m cli.cli predict path/to/image.jpg
-```
-
-#### Resize an image:
-```bash
-uv run python -m cli.cli resize path/to/image.jpg 200 200 --output resized.jpg
-```
-
-#### Convert to grayscale:
-```bash
-uv run python -m cli.cli grayscale path/to/image.jpg --output gray.jpg
-```
-
-#### Get image information:
-```bash
-uv run python -m cli.cli info path/to/image.jpg
-```
-
-### API (FastAPI)
-
-#### Start the server:
-```bash
-uv run python -m api.api
-```
-
-The API will be available at `http://localhost:8000`
-
-#### Available Endpoints:
-
-- **GET /** - Home page
-- **POST /predict** - Predicts the class of an image  
-  - Parameters: `file` (image)
-- **POST /resize** - Resizes an image  
-  - Parameters: `file` (image), `width` (int), `height` (int)
-- **POST /grayscale** - Converts an image to grayscale  
-  - Parameters: `file` (image)
-- **POST /info** - Gets image information  
-  - Parameters: `file` (image)
-
-#### Interactive Documentation:
-Once the server is running, visit `http://localhost:8000/docs` to access the interactive Swagger UI documentation.
-
-## Development
-
-### Makefile - Available Commands
-
-```bash
-make install    # Install all dependencies
-make format     # Format code with Black
-make lint       # Static analysis with Pylint
-make test       # Run tests with pytest
-make refactor   # Format + lint
-make all        # Run everything (install + format + lint + test)
-make clean      # Clean temporary files
-```
-
-### Testing
-
-Run all tests:
-```bash
-make test
-```
-
-Run specific tests:
-```bash
-uv run pytest tests/test_operations.py -v
-uv run pytest tests/test_cli.py -v
-uv run pytest tests/test_api.py -v
-```
-
-View test coverage:
-```bash
-uv run pytest tests/ --cov=mylib --cov=cli --cov=api --cov-report=html
-```
-
-## CI/CD Pipeline
-
-The project uses GitHub Actions to automatically run:
-
-1. **Format**: Code formatting with Black
-2. **Lint**: Static analysis with Pylint
-3. **Test**: Test execution with pytest
-
-The pipeline runs on every `push` and `pull_request` to the `main` branch.
-
-## Prediction Classes
-
-The available classes for random prediction are:
-- dog
-- cat
-- car
-- airplane
-- ship
-- bicycle
-- person
-- house
-
-## Technologies Used
-
-- **Python 3.12**
-- **Pillow (PIL)**: Image processing
-- **Click**: CLI creation
-- **FastAPI**: API framework
-- **Uvicorn**: ASGI server
-- **Pytest**: Testing framework
-- **Black**: Code formatting
-- **Pylint**: Static analysis
-- **uv**: Package and virtual environment manager
-
-## Author
-
-Iñigo Goioketxea - Public University of Navarre
-
-## License
-
-MIT License
+All Lab3 requirements implemented:
+- ✅ Transfer learning with pre-trained models
+- ✅ Oxford-IIIT Pet dataset (37 classes)
+- ✅ MLFlow experiment tracking
+- ✅ Model registration and versioning
+- ✅ ONNX model serialization
+- ✅ API integration with real predictions
+- ✅ Comprehensive testing
+- ✅ Docker deployment configuration

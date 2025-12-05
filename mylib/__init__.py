@@ -5,7 +5,7 @@ from mylib.operations import (
     resize_image,
     convert_to_grayscale,
     get_image_info,
-    CLASS_NAMES,
+    FALLBACK_CLASS_NAMES,
 )
 
 __all__ = [
@@ -13,7 +13,7 @@ __all__ = [
     "resize_image",
     "convert_to_grayscale",
     "get_image_info",
-    "CLASS_NAMES",
+    "FALLBACK_CLASS_NAMES",
 ]
 
 # cli/__init__.py

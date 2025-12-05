@@ -3,7 +3,7 @@ install:
 	uv sync
 
 lint:
-	uv run python -m pytest tests/ -vv --cov=mylib --cov=api --cov=cli
+	uv run pylint --rcfile=.pylintrc --ignore-patterns=test_.*\.py mylib api cli scripts
 
 format:
 	uv run black mylib cli api tests

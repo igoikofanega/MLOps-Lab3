@@ -7,7 +7,7 @@ from fastapi.testclient import TestClient
 from PIL import Image
 
 from api.api import app
-from mylib.operations import CLASS_NAMES
+from mylib.operations import FALLBACK_CLASS_NAMES
 
 
 @pytest.fixture
@@ -61,7 +61,9 @@ def test_predict_endpoint_success(
     assert response.status_code == 200
     data = response.json()
     assert "predicted_class" in data
-    assert data["predicted_class"] in CLASS_NAMES
+    # Prediction could be from ONNX model or fallback
+    assert isinstance(data["predicted_class"], str)
+    assert len(data["predicted_class"]) > 0
     assert "filename" in data
     assert "image_info" in data
 

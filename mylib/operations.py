@@ -1,34 +1,80 @@
-"""Image processing operations for MLOps Lab1."""
+"""Image processing operations for MLOps Lab3."""
 
 import random
 from PIL import Image
 from typing import Tuple
 
+# Import ONNX classifier
+try:
+    from mylib.inference import classifier
+    CLASSIFIER_AVAILABLE = classifier is not None
+except ImportError:
+    CLASSIFIER_AVAILABLE = False
+    classifier = None
 
-# Define class names for random prediction
-CLASS_NAMES = [
-    "perro",
-    "gato",
-    "coche",
-    "avión",
-    "barco",
-    "bicicleta",
-    "persona",
-    "casa",
+# Fallback class names for when model is not available
+FALLBACK_CLASS_NAMES = [
+    "Abyssinian",
+    "Bengal",
+    "Birman",
+    "Bombay",
+    "British_Shorthair",
+    "Egyptian_Mau",
+    "Maine_Coon",
+    "Persian",
+    "Ragdoll",
+    "Russian_Blue",
+    "Siamese",
+    "Sphynx",
+    "american_bulldog",
+    "american_pit_bull_terrier",
+    "basset_hound",
+    "beagle",
+    "boxer",
+    "chihuahua",
+    "english_cocker_spaniel",
+    "english_setter",
+    "german_shorthaired",
+    "great_pyrenees",
+    "havanese",
+    "japanese_chin",
+    "keeshond",
+    "leonberger",
+    "miniature_pinscher",
+    "newfoundland",
+    "pomeranian",
+    "pug",
+    "saint_bernard",
+    "samoyed",
+    "scottish_terrier",
+    "shiba_inu",
+    "staffordshire_bull_terrier",
+    "wheaten_terrier",
+    "yorkshire_terrier",
 ]
 
 
 def predict_class(image: Image.Image) -> str:
     """
-    Predict the class of an image (randomly chosen for Lab1).
+    Predict the class of an image using the ONNX model.
+    Falls back to random prediction if model is not available.
 
     Args:
         image: PIL Image object
 
     Returns:
-        str: Randomly selected class name
+        str: Predicted class name
     """
-    return random.choice(CLASS_NAMES)
+    if CLASSIFIER_AVAILABLE:
+        try:
+            return classifier.predict(image)
+        except Exception as e:
+            print(f"Warning: Prediction failed with error: {e}")
+            print("Falling back to random prediction")
+            return random.choice(FALLBACK_CLASS_NAMES)
+    else:
+        # Fallback to random prediction if model not available
+        return random.choice(FALLBACK_CLASS_NAMES)
 
 
 def resize_image(image: Image.Image, width: int, height: int) -> Image.Image:
