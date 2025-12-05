@@ -36,6 +36,7 @@ COPY mylib ./mylib
 COPY templates ./templates
 # Copy model artifacts (ONNX model and class labels)
 COPY results/model.onnx ./results/model.onnx
+COPY results/model.onnx.data ./results/model.onnx.data
 COPY results/class_labels.json ./results/class_labels.json
 # Expose the port associated with the API created with FastAPI
 EXPOSE 8000
