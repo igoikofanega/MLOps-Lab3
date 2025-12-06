@@ -4,8 +4,8 @@ from PIL import Image
 import io
 import os
 
-# URL del API en Render (debes cambiar esto por tu URL real)
-API_URL = os.getenv("API_URL", "https://igoikofanegamlops-lab2.onrender.com")
+# URL del API en Render (Lab3)
+API_URL = os.getenv("API_URL", "https://mlops-lab3-1.onrender.com")
 
 def predict_image(image):
     """Predice la clase de la imagen"""
@@ -115,9 +115,9 @@ def get_image_info(image):
         return f"Error al procesar la imagen: {str(e)}"
 
 # Crear interfaz Gradio con pestañas
-with gr.Blocks(title="Random Model - Image Processing") as demo:
-    gr.Markdown("# 🖼️ Random Model - Image Processing Suite")
-    gr.Markdown("Tools for image processing and analysis")
+with gr.Blocks(title="Lab3 - Oxford-IIIT Pet Classifier") as demo:
+    gr.Markdown("# �🐶 Lab3 - Oxford-IIIT Pet Classifier")
+    gr.Markdown("Transfer learning model trained with MLFlow - 37 pet breeds classification")
     
     with gr.Tabs():
         # Pestaña 1: Predicción
