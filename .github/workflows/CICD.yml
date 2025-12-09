@@ -79,6 +79,17 @@ jobs:
           git fetch origin hf-space
           git checkout hf-space
       
+      - name: Install Git LFS
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y git-lfs
+          git lfs install
+      
+      - name: Migrate binary files to LFS
+        run: |
+          # Migrate .onnx files in history to LFS
+          git lfs migrate import --include="*.onnx,*.onnx.data" --everything
+      
       - name: Add Hugging Face remote
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
