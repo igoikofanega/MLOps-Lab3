@@ -24,6 +24,7 @@ jobs:
     needs: build   # it is not executed if build fails
     env:
           DOCKER_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/mlops-lab3:latest
+          RENDER_HOOK_BASE_URL: https://api.render.com/deploy/srv-d4piljbe5dus73e66740?key
     steps:
       - name: Free Disk Space (Ubuntu)
         uses: jlumbroso/free-disk-space@v1.3.1
@@ -60,7 +61,7 @@ jobs:
           tags: ${{ env.DOCKER_IMAGE }}
           file: ./Dockerfile
       - name: Trigger Render Deploy
-        run: curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK_URL }}"
+        run: curl -X POST "${{ env.RENDER_HOOK_BASE_URL }}=${{ secrets.RENDER_DEPLOY_HOOK_KEY }}"
 
 
   deploy-hf:
