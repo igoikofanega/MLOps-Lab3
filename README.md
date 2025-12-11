@@ -1,6 +1,6 @@
 # MLOps Lab3 - Transfer Learning with MLFlow
 
-![CI Pipeline](https://github.com/igoikofanega/MLOps-Lab2/actions/workflows/CICD.yml/badge.svg)
+![CI Pipeline](https://github.com/igoikofanega/MLOps-Lab3/actions/workflows/CICD.yml/badge.svg)
 
 Complete implementation of transfer learning on Oxford-IIIT Pet dataset with MLFlow experiment tracking, ONNX model serialization, and production deployment.
 
