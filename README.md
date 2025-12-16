@@ -98,31 +98,9 @@ docker run -p 8000:8000 mlops-lab3
 
 ```
 
-## Features
+## CI/CD Pipeline
+The project uses GitHub Actions for automated testing and deployment:
 
-✅ Transfer learning with ResNet18, EfficientNet-B0, MobileNetV2
-✅ MLFlow experiment tracking and model registry
-✅ ONNX model serialization for deployment
-✅ Comprehensive test suite (36 tests)
-✅ Docker deployment ready
-✅ Production-ready API with fallback mechanism
-
-## Next Steps
-
-See [walkthrough.md](file:///.gemini/antigravity/brain/0ecddbdd-5aac-499c-a792-9ae720ff18ab/walkthrough.md) for detailed instructions on:
-- Training multiple models
-- Comparing results in MLFlow UI
-- Selecting and exporting best model
-- Deploying to production
-
-## Lab Requirements
-
-All Lab3 requirements implemented:
-- ✅ Transfer learning with pre-trained models
-- ✅ Oxford-IIIT Pet dataset (37 classes)
-- ✅ MLFlow experiment tracking
-- ✅ Model registration and versioning
-- ✅ ONNX model serialization
-- ✅ API integration with real predictions
-- ✅ Comprehensive testing
-- ✅ Docker deployment configuration
+- Build: Run tests, linting, and formatting checks.
+- Deploy: Build and push Docker image to DockerHub, trigger Render deployment.
+- Deploy-HF: Deploying Gradio frontend to HuggingFace Space.
