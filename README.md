@@ -101,6 +101,19 @@ docker run -p 8000:8000 mlops-lab3
 ## CI/CD Pipeline
 The project uses GitHub Actions for automated testing and deployment:
 
-- Build: Run tests, linting, and formatting checks.
-- Deploy: Build and push Docker image to DockerHub, trigger Render deployment.
-- Deploy-HF: Deploying Gradio frontend to HuggingFace Space.
+- **Build**: Run tests, linting, and formatting checks.
+- **Deploy**: Build and push Docker image to DockerHub, trigger Render deployment.
+- **Deploy-HF**: Deploy Gradio frontend to HuggingFace Space.
+
+## Deployment
+
+The project uses a modern cloud deployment stack for production:
+
+### DockerHub
+Docker images are automatically built and pushed to DockerHub on every push to `main`.
+
+### Render
+The FastAPI backend is deployed on Render, providing a production-ready API with automatic HTTPS, health checks, and auto-deploy from DockerHub.
+
+### Hugging Face Spaces
+The Gradio UI is hosted on Hugging Face Spaces, connecting to the Render API to provide an interactive demo for end users.
